@@ -39,6 +39,26 @@ function copyFile(src, dest) {
   fs.copyFileSync(src, dest);
 }
 
+function copyKoffiMinimal(src, dest) {
+  const files = [
+    'index.js',
+    'index.d.ts',
+    'LICENSE.txt',
+    'build/koffi/win32_x64/koffi.node'
+  ];
+  for (const rel of files) {
+    const s = path.join(src, rel);
+    if (!fs.existsSync(s)) {
+      throw new Error(`koffi missing required file: ${rel}`);
+    }
+    copyFile(s, path.join(dest, rel));
+  }
+  const koffiPkg = JSON.parse(fs.readFileSync(path.join(src, 'package.json'), 'utf8'));
+  delete koffiPkg.scripts;
+  fs.mkdirSync(dest, { recursive: true });
+  fs.writeFileSync(path.join(dest, 'package.json'), JSON.stringify(koffiPkg, null, 2));
+}
+
 function main() {
   console.log('[build] root:', ROOT);
   rmrf(DIST);
@@ -53,8 +73,8 @@ function main() {
   if (!fs.existsSync(NM_KOFFI)) {
     throw new Error('koffi not installed under node_modules/koffi; run npm install first');
   }
-  copyDir(NM_KOFFI, path.join(DIST, 'node_modules', 'koffi'));
-  console.log('[build] copied node_modules/koffi');
+  copyKoffiMinimal(NM_KOFFI, path.join(DIST, 'node_modules', 'koffi'));
+  console.log('[build] copied node_modules/koffi (win32_x64 only)');
 
   const distPkg = {
     name: PKG.name,
