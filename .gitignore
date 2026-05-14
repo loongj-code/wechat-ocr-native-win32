@@ -1,0 +1,11 @@
+node_modules/
+dist/
+.probe/
+*.log
+.npmrc
+.env
+.env.*
+.DS_Store
+.vscode/
+.idea/
+.claude/

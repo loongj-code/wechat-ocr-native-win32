@@ -1,0 +1,24 @@
+{
+  "name": "@xiaojia5/wechat-ocr-native-win32",
+  "version": "0.1.0",
+  "description": "Local WeChat (Weixin 4.x) OCR via wcocr.dll on Windows x64",
+  "main": "dist/index.js",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "node scripts/build.js",
+    "pack": "npm run build && npm pack",
+    "test": "node test/smoke.js"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "os": ["win32"],
+  "cpu": ["x64"],
+  "keywords": ["ocr", "wechat", "weixin", "wcocr", "wxocr", "win32"],
+  "license": "MIT",
+  "dependencies": {
+    "koffi": "^2.10.0"
+  }
+}
